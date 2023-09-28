@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Find the GPS Position</title>
+</head>
+<body>
+  <h1>Find the GPS Position</h1>
+  <input type="text" id="gpsPositionInput" placeholder="Enter the GPS position">
+  <button type="button" id="submitGpsPositionButton">Submit</button>
+
+  <p id="distanceTextView"></p>
+
+  <script>
+    // Get the GPS position input field.
+    const gpsPositionInput = document.getElementById('gpsPositionInput');
+
+    // Get the submit GPS position button.
+    const submitGpsPositionButton = document.getElementById('submitGpsPositionButton');
+
+    // Get the distance text view.
+    const distanceTextView = document.getElementById('distanceTextView');
+
+    // Set the pre-defined GPS position.
+    const preDefinedLocation = new Location("");
+    preDefinedLocation.setLatitude(37.7833);
+    preDefinedLocation.setLongitude(-122.4167);
+
+    // Initialize the number of tries remaining.
+    let triesRemaining = 50;
+
+    // Add an event listener to the submit GPS position button.
+    submitGpsPositionButton.addEventListener('click', () => {
+      // Get the GPS position from the input field.
+      const gpsPosition = gpsPositionInput.value;
+
+      // Calculate the distance to the GPS position.
+      const distance = new Location().distanceTo(preDefinedLocation);
+
+      // Display the distance to the GPS position.
+      distanceTextView.textContent = `Distance: ${distance}`;
+
+      // If the user has reached the GPS position, display a message and close the app.
+      if (distance == 0) {
+        alert('Congratulations!');
+        window.close();
+      }
+
+      // Decrement the number of tries remaining.
+      triesRemaining--;
+
+      // If the user has no tries remaining, display a message and reload the start screen.
+      if (triesRemaining == 0) {
+        alert('Sorry, too bad.');
+        window.location.reload();
+      }
+
+      // Wait 10 seconds before closing the app.
+      setTimeout(() => {
+        window.close();
+      }, 10000);
+    });
+  </script>
+</body>
+</html>
